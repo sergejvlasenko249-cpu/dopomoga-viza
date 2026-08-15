@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Допомога Віза — Візи та документи для виїзду за кордон</title>
+<meta name="description" content="Оформлення віз, загранпаспортів, дозволів на виїзд. Швидко, офіційно, без відмов. Безкоштовна консультація.">
+<meta name="theme-color" content="#0a0e1a">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+:root {
+  --bg: #0a0e1a;
+  --bg-light: #111827;
+  --card: rgba(17,24,39,0.7);
+  --accent: #f59e0b;
+  --accent-glow: rgba(245,158,11,0.3);
+  --text: #e2e8f0;
+  --text-dim: #94a3b8;
+  --danger: #ef4444;
+  --danger-bg: rgba(239,68,68,0.1);
+  --success: #22c55e;
+  --glass: rgba(255,255,255,0.03);
+  --glass-border: rgba(255,255,255,0.08);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; overflow-x: hidden; }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 4px; }
+
+/* Header */
+header {
+  position: fixed; top: 0; left: 0; right: 0;
+  background: rgba(10,14,26,0.8);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--glass-border);
+  z-index: 1000;
+  padding: 0 24px;
+}
+.header-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 72px; }
+.logo { font-size: 1.4rem; font-weight: 800; letter-spacing: -0.5px; color: var(--text); }
+.logo span { color: var(--accent); }
+nav { display: none; }
+nav a { color: var(--text-dim); text-decoration: none; margin-left: 32px; font-weight: 500; font-size: 0.9rem; transition: all 0.3s; position: relative; }
+nav a:hover { color: var(--accent); }
+nav a::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 2px; background: var(--accent); transition: width 0.3s; }
+nav a:hover::after { width: 100%; }
+.header-btn { display: none; background: linear-gradient(135deg, var(--accent), #d97706); color: #0a0e1a; padding: 10px 24px; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 0.85rem; transition: transform 0.3s, box-shadow 0.3s; }
+.header-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 25px var(--accent-glow); }
+.menu-toggle { color: var(--text); font-size: 1.5rem; background: none; border: none; cursor: pointer; padding: 8px; }
+
+@media(min-width: 900px) { nav, .header-btn { display: block; } .menu-toggle { display: none; } }
+
+.mobile-nav {
+  display: none; position: fixed; top: 72px; left: 0; right: 0;
+  background: rgba(10,14,26,0.95); backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--glass-border); padding: 20px 24px; z-index: 999;
+}
+.mobile-nav a { display: block; color: var(--text); text-decoration: none; padding: 14px 0; border-bottom: 1px solid var(--glass-border); font-weight: 500; }
+.mobile-nav a:hover { color: var(--accent); }
+.mobile-nav.show { display: block; animation: slideDown 0.3s ease; }
+@keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+
+/* Hero */
+.hero {
+  min-height: 100vh; padding: 140px 24px 80px;
+  background: radial-gradient(ellipse at top, #1e293b 0%, var(--bg) 50%);
+  position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center;
+}
+.hero::before {
+  content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+  background: radial-gradient(circle at 20% 50%, rgba(245,158,11,0.08) 0%, transparent 50%),
+              radial-gradient(circle at 80% 80%, rgba(59,130,246,0.05) 0%, transparent 40%);
+  animation: float 20s ease-in-out infinite;
+}
+@keyframes float { 0%,100% { transform: translate(0,0); } 50% { transform: translate(-30px,-20px); } }
+
+.hero-inner { max-width: 900px; text-align: center; position: relative; z-index: 2; }
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--glass); border: 1px solid var(--glass-border);
+  padding: 8px 20px; border-radius: 50px; font-size: 0.85rem; color: var(--accent);
+  margin-bottom: 28px; backdrop-filter: blur(10px);
+}
+.hero-badge::before { content: '🔥'; }
+.hero h1 { font-size: clamp(2rem, 5vw, 3.8rem); font-weight: 900; line-height: 1.1; margin-bottom: 24px; letter-spacing: -1px; }
+.hero h1 .accent { background: linear-gradient(135deg, var(--accent), #fbbf24); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.hero-desc { font-size: clamp(1rem, 2vw, 1.25rem); color: var(--text-dim); max-width: 600px; margin: 0 auto 40px; }
+.hero-btns { display: flex; flex-direction: column; gap: 14px; align-items: center; justify-content: center; }
+.btn {
+  padding: 16px 36px; border-radius: 12px; text-decoration: none; font-weight: 700;
+  font-size: 1rem; display: inline-flex; align-items: center; gap: 10px;
+  transition: all 0.3s; border: none; cursor: pointer; position: relative; overflow: hidden;
+}
+.btn::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent); transition: left 0.5s; }
+.btn:hover::before { left: 100%; }
+.btn-primary { background: linear-gradient(135deg, var(--accent), #d97706); color: #0a0e1a; box-shadow: 0 8px 30px var(--accent-glow); }
+.btn-primary:hover { transform: translateY(-3px); box-shadow: 0 12px 40px var(--accent-glow); }
+.btn-secondary { background: var(--glass); color: var(--text); border: 1px solid var(--glass-border); backdrop-filter: blur(10px); }
+.btn-secondary:hover { background: rgba(255,255,255,0.08); border-color: var(--accent); }
+
+.hero-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 60px; max-width: 600px; margin-left: auto; margin-right: auto; }
+.stat {
+  background: var(--glass); border: 1px solid var(--glass-border); border-radius: 16px;
+  padding: 20px 16px; backdrop-filter: blur(10px); transition: all 0.3s;
+}
+.stat:hover { border-color: var(--accent); transform: translateY(-4px); }
+.stat-num { font-size: 1.8rem; font-weight: 800; color: var(--accent); display: block; }
+.stat-label { font-size: 0.8rem; color: var(--text-dim); margin-top: 4px; }
+
+@media(min-width: 640px) { .hero-btns { flex-direction: row; } }
+
+/* Warning */
+.warning { padding: 0; }
+.warning-inner {
+  max-width: 1100px; margin: 0 auto;
+  background: var(--danger-bg); border: 1px solid rgba(239,68,68,0.2);
+  border-radius: 16px; padding: 28px 32px; margin-top: -40px; position: relative; z-index: 10;
+  backdrop-filter: blur(10px);
+}
+.warning h3 { color: var(--danger); font-size: 1.1rem; margin-bottom: 12px; display: flex; align-items: center; gap: 10px; }
+.warning p { font-size: 0.9rem; color: #fca5a5; margin-bottom: 6px; }
+.warning .contacts { margin-top: 16px; display: flex; flex-wrap: wrap; gap: 20px; }
+.warning .contacts a { color: var(--danger); font-weight: 700; text-decoration: none; font-size: 0.95rem; display: flex; align-items: center; gap: 6px; transition: color 0.2s; }
+.warning .contacts a:hover { color: #fff; }
+
+/* Sections */
+section { padding: 100px 24px; }
+.section-inner { max-width: 1100px; margin: 0 auto; }
+.section-header { text-align: center; margin-bottom: 60px; }
+.section-tag { display: inline-block; background: var(--glass); border: 1px solid var(--glass-border); color: var(--accent); padding: 6px 16px; border-radius: 50px; font-size: 0.8rem; font-weight: 600; margin-bottom: 16px; text-transform: uppercase; letter-spacing: 1px; }
+.section-title { font-size: clamp(1.6rem, 3vw, 2.4rem); font-weight: 800; margin-bottom: 12px; }
+.section-sub { color: var(--text-dim); font-size: 1rem; max-width: 500px; margin: 0 auto; }
+
+/* Services */
+.services-grid { display: grid; grid-template-columns: 1fr; gap: 24px; }
+.service-card {
+  background: var(--glass); border: 1px solid var(--glass-border); border-radius: 20px;
+  padding: 36px 32px; backdrop-filter: blur(10px); transition: all 0.4s; position: relative; overflow: hidden;
+}
+.service-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, var(--accent), transparent); opacity: 0; transition: opacity 0.3s;
+}
+.service-card:hover::before { opacity: 1; }
+.service-card:hover { transform: translateY(-8px); border-color: rgba(245,158,11,0.3); box-shadow: 0 20px 60px rgba(0,0,0,0.4); }
+.service-icon {
+  width: 56px; height: 56px; background: linear-gradient(135deg, rgba(245,158,11,0.15), rgba(245,158,11,0.05));
+  border: 1px solid rgba(245,158,11,0.2); border-radius: 14px;
+  display: flex; align-items: center; justify-content: center; font-size: 1.6rem; margin-bottom: 20px;
+}
+.service-card h3 { font-size: 1.25rem; margin-bottom: 10px; }
+.service-card p { color: var(--text-dim); font-size: 0.92rem; margin-bottom: 20px; line-height: 1.6; }
+.service-price { display: inline-block; background: rgba(245,158,11,0.1); color: var(--accent); padding: 6px 14px; border-radius: 8px; font-weight: 700; font-size: 0.85rem; margin-bottom: 16px; }
+.service-card a { color: var(--accent); text-decoration: none; font-weight: 600; font-size: 0.9rem; display: inline-flex; align-items: center; gap: 6px; transition: gap 0.2s; }
+.service-card a:hover { gap: 10px; }
+
+@media(min-width: 768px) { .services-grid { grid-template-columns: repeat(2, 1fr); } }
+
+/* Calculator */
+.calc-section { background: var(--bg-light); }
+.calc-box {
+  background: var(--glass); border: 1px solid var(--glass-border); border-radius: 24px;
+  padding: 40px; backdrop-filter: blur(10px); max-width: 700px; margin: 0 auto;
+}
+.calc-row { margin-bottom: 24px; }
+.calc-row label { display: block; font-weight: 600; margin-bottom: 10px; font-size: 0.95rem; }
+.calc-row select, .calc-row input {
+  width: 100%; padding: 14px 18px; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border);
+  border-radius: 12px; color: var(--text); font-size: 1rem; font-family: inherit; outline: none; transition: border-color 0.3s;
+}
+.calc-row select:focus, .calc-row input:focus { border-color: var(--accent); }
+.calc-row select option { background: var(--bg-light); color: var(--text); }
+.calc-result {
+  background: linear-gradient(135deg, rgba(245,158,11,0.1), rgba(245,158,11,0.02));
+  border: 1px solid rgba(245,158,11,0.2); border-radius: 16px; padding: 24px; text-align: center; margin-top: 20px;
+}
+.calc-result .price { font-size: 2.2rem; font-weight: 800; color: var(--accent); }
+.calc-result .note { color: var(--text-dim); font-size: 0.85rem; margin-top: 8px; }
+
+/* Why */
+.why-grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
+.why-card {
+  background: var(--glass); border: 1px solid var(--glass-border); border-radius: 16px;
+  padding: 28px; backdrop-filter: blur(10px); transition: all 0.3s;
+}
+.why-card:hover { border-color: var(--accent); transform: translateY(-4px); }
+.why-card .num { font-size: 2rem; font-weight: 800; color: var(--accent); opacity: 0.3; margin-bottom: 8px; }
+.why-card h4 { font-size: 1.1rem; margin-bottom: 8px; }
+.why-card p { color: var(--text-dim); font-size: 0.9rem; }
+
+@media(min-width: 768px) { .why-grid { grid-template-columns: repeat(2, 1fr); } }
+
+/* Steps */
+.steps-grid { display: grid; grid-template-columns: 1fr; gap: 32px; position: relative; }
+.steps-grid::before {
+  content: ''; position: absolute; top: 30px; left: 50%; transform: translateX(-50%);
+  width: 2px; height: calc(100% - 60px); background: linear-gradient(to bottom, var(--accent), transparent);
+  display: none;
+}
+.step { text-align: center; position: relative; }
+.step-num {
+  width: 60px; height: 60px; background: linear-gradient(135deg, var(--accent), #d97706);
+  color: #0a0e1a; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  font-weight: 800; font-size: 1.3rem; margin: 0 auto 20px; box-shadow: 0 8px 25px var(--accent-glow);
+}
+.step h4 { font-size: 1.2rem; margin-bottom: 10px; }
+.step p { color: var(--text-dim); font-size: 0.92rem; max-width: 300px; margin: 0 auto; }
+
+@media(min-width: 768px) { .steps-grid { grid-template-columns: repeat(3, 1fr); } .steps-grid::before { display: block; } }
+
+/* FAQ */
+.faq-item { background: var(--glass); border: 1px solid var(--glass-border); border-radius: 16px; margin-bottom: 12px; overflow: hidden; transition: all 0.3s; }
+.faq-item:hover { border-color: rgba(245,158,11,0.2); }
+.faq-q { padding: 22px 28px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: 600; font-size: 1rem; transition: color 0.2s; }
+.faq-q:hover { color: var(--accent); }
+.faq-q .icon { width: 28px; height: 28px; background: var(--glass); border: 1px solid var(--glass-border); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; color: var(--accent); transition: all 0.3s; }
+.faq-item.active .faq-q .icon { transform: rotate(45deg); background: var(--accent); color: #0a0e1a; border-color: var(--accent); }
+.faq-a { padding: 0 28px; max-height: 0; overflow: hidden; transition: max-height 0.4s ease, padding 0.4s ease; color: var(--text-dim); font-size: 0.95rem; line-height: 1.7; }
+.faq-item.active .faq-a { padding: 0 28px 24px; max-height: 300px; }
+
+/* Contact */
+.contact { background: linear-gradient(180deg, var(--bg) 0%, var(--bg-light) 100%); }
+.contact-grid { display: grid; grid-template-columns: 1fr; gap: 40px; align-items: start; }
+.contact-info h3 { font-size: 1.5rem; margin-bottom: 16px; }
+.contact-info p { color: var(--text-dim); margin-bottom: 28px; }
+.contact-item {
+  display: flex; align-items: center; gap: 14px; padding: 16px 20px;
+  background: var(--glass); border: 1px solid var(--glass-border); border-radius: 14px;
+  text-decoration: none; color: var(--text); margin-bottom: 12px; transition: all 0.3s;
+}
+.contact-item:hover { border-color: var(--accent); transform: translateX(4px); }
+.contact-item .icon-box { width: 44px; height: 44px; background: rgba(245,158,11,0.1); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; }
+.contact-item .info strong { display: block; font-size: 0.85rem; color: var(--text-dim); margin-bottom: 2px; }
+.contact-item .info span { font-weight: 700; font-size: 1rem; }
+
+.contact-form {
+  background: var(--glass); border: 1px solid var(--glass-border); border-radius: 24px;
+  padding: 36px; backdrop-filter: blur(10px);
+}
+.contact-form h3 { font-size: 1.3rem; margin-bottom: 8px; }
+.contact-form .sub { color: var(--text-dim); font-size: 0.9rem; margin-bottom: 24px; }
+.form-group { margin-bottom: 18px; }
+.form-group label { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 8px; color: var(--text-dim); }
+.form-group input, .form-group select, .form-group textarea {
+  width: 100%; padding: 14px 16px; background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border);
+  border-radius: 12px; color: var(--text); font-size: 0.95rem; font-family: inherit; outline: none; transition: all 0.3s;
+}
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--accent); background: rgba(255,255,255,0.05); }
+.form-group textarea { resize: vertical; min-height: 100px; }
+.timer { display: flex; align-items: center; gap: 8px; color: var(--accent); font-size: 0.85rem; margin-top: 16px; }
+.timer .dot { width: 8px; height: 8px; background: var(--accent); border-radius: 50%; animation: pulse 2s infinite; }
+@keyframes pulse { 0%,100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(1.3); } }
+
+@media(min-width: 900px) { .contact-grid { grid-template-columns: 1fr 1fr; } }
+
+/* Footer */
+footer { background: #020617; border-top: 1px solid var(--glass-border); padding: 40px 24px; text-align: center; }
+footer p { color: var(--text-dim); font-size: 0.85rem; }
+
+/* Animations */
+.fade-in { opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease, transform 0.8s ease; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+
+/* Toast */
+.toast {
+  position: fixed; bottom: 30px; right: 30px; background: var(--success); color: #fff;
+  padding: 16px 24px; border-radius: 12px; font-weight: 600; box-shadow: 0 10px 40px rgba(34,197,94,0.3);
+  transform: translateY(100px); opacity: 0; transition: all 0.4s; z-index: 9999;
+}
+.toast.show { transform: translateY(0); opacity: 1; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="logo">ДОПОМОГА <span>ВІЗА</span></div>
+    <nav>
+      <a href="#services">Послуги</a>
+      <a href="#calc">Ціни</a>
+      <a href="#why">Переваги</a>
+      <a href="#steps">Як це працює</a>
+      <a href="#faq">FAQ</a>
+      <a href="#contact">Контакти</a>
+    </nav>
+    <a href="https://t.me/Lutuiruslan" target="_blank" class="header-btn">Написати в Telegram</a>
+    <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+  </div>
+</header>
+<div class="mobile-nav" id="mobileNav">
+  <a href="#services" onclick="toggleMenu()">Послуги</a>
+  <a href="#calc" onclick="toggleMenu()">Ціни</a>
+  <a href="#why" onclick="toggleMenu()">Переваги</a>
+  <a href="#steps" onclick="toggleMenu()">Як це працює</a>
+  <a href="#faq" onclick="toggleMenu()">FAQ</a>
+  <a href="#contact" onclick="toggleMenu()">Контакти</a>
+</div>
+
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-badge">Працюємо по всій Україні</div>
+    <h1>Допомога з документами <span class="accent">будь-якої складності</span>. Виїзд за кордон.</h1>
+    <p class="hero-desc">Візи для військовослужбовців і цивільних, студентські візи, загранпаспорти, дозволи на виїзд. Працюємо швидко, офіційно та без відмов.</p>
+    <div class="hero-btns">
+      <a href="#contact" class="btn btn-primary">Отримати консультацію →</a>
+      <a href="#calc" class="btn btn-secondary">Розрахувати вартість</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat"><span class="stat-num">500+</span><span class="stat-label">Оформлених віз</span></div>
+      <div class="stat"><span class="stat-num">98%</span><span class="stat-label">Успішних кейсів</span></div>
+      <div class="stat"><span class="stat-num">3 дні</span><span class="stat-label">Мінімальний термін</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="warning">
+  <div class="warning-inner">
+    <h3>⚠️ УВАГА! ШАХРАЇ</h3>
+    <p>Ми працюємо тільки через контакти, вказані на цьому сайті.</p>
+    <p>• Не переказуйте гроші незнайомим людям • Не надсилайте документи стороннім особам • Офіційна оплата — тільки після виготовлення документів</p>
+    <p>Якщо вам написали від нашого імені з інших номерів — це шахраї.</p>
+    <div class="contacts">
+      <a href="https://t.me/Lutuiruslan" target="_blank">📱 Telegram: @Lutuiruslan</a>
+      <a href="tel:+380944910731">📞 +380 94 491 07 31</a>
+    </div>
+  </div>
+</section>
+
+<section id="services">
+  <div class="section-inner">
+    <div class="section-header">
+      <div class="section-tag">Послуги</div>
+      <h2 class="section-title">Що ми пропонуємо</h2>
+      <p class="section-sub">Повний спектр допомоги з документами для виїзду за кордон</p>
+    </div>
+    <div class="services-grid">
+      <div class="service-card fade-in">
+        <div class="service-icon">🛂</div>
+        <h3>Оформлення візи</h3>
+        <p>Шенген, робочі, студентські та туристичні візи. Досвід роботи з військовослужбовцями та цивільними.</p>
+        <div class="service-price">від $150</div>
+        <a href="#contact">Замовити →</a>
+      </div>
+      <div class="service-card fade-in">
+        <div class="service-icon">📄</div>
+        <h3>Пакет документів</h3>
+        <p>Закордонний паспорт, довідки, дозвіл на виїзд, страховки. Збираємо та оформляємо повний комплект.</p>
+        <div class="service-price">від $80</div>
+        <a href="#contact">Замовити →</a>
+      </div>
+      <div class="service-card fade-in">
+        <div class="service-icon">🤝</div>
+        <h3>Повний супровід</h3>
+        <p>Від першої консультації до посадки в літак. Контролюємо кожен етап та тримаємо вас в курсі.</p>
+        <div class="service-price">від $250</div>
+        <a href="#contact">Замовити →</a>
+      </div>
+      <div class="service-card fade-in">
+        <div class="service-icon">💬</div>
+        <h3>Безкоштовна консультація</h3>
+        <p>Розберемо вашу ситуацію, підберемо оптимальний варіант та розкажемо, з чого почати. Без зобов'язань.</p>
+        <div class="service-price">Безкоштовно</div>
+        <a href="#contact">Записатись →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="calc-section" id="calc">
+  <div class="section-inner">
+    <div class="section-header">
+      <div class="section-tag">Калькулятор</div>
+      <h2 class="section-title">Розрахуйте вартість онлайн</h2>
+      <p class="section-sub">Отримайте орієнтовну ціну за 10 секунд</p>
+    </div>
+    <div class="calc-box">
+      <div class="calc-row">
+        <label>Тип візи</label>
+        <select id="visaType" onchange="calcPrice()">
+          <option value="150">Шенген віза — від $150</option>
+          <option value="200">Робоча віза — від $200</option>
+          <option value="180">Студентська віза — від $180</option>
+          <option value="120">Туристична віза — від $120</option>
+        </select>
+      </div>
+      <div class="calc-row">
+        <label>Термін оформлення</label>
+        <select id="urgency" onchange="calcPrice()">
+          <option value="0">Стандарт (7-14 днів)</option>
+          <option value="50">Терміново (3-5 днів) +$50</option>
+          <option value="100">Експрес (1-2 дні) +$100</option>
+        </select>
+      </div>
+      <div class="calc-row">
+        <label>Додаткові послуги</label>
+        <select id="extra" onchange="calcPrice()">
+          <option value="0">Без додаткових</option>
+          <option value="80">Пакет документів +$80</option>
+          <option value="150">Повний супровід +$150</option>
+          <option value="230">Документи + супровід +$230</option>
+        </select>
+      </div>
+      <div class="calc-result" id="calcResult">
+        <div class="price">$150</div>
+        <div class="note">Орієнтовна вартість. Точну ціну скажемо після консультації.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="why">
+  <div class="section-inner">
+    <div class="section-header">
+      <div class="section-tag">Переваги</div>
+      <h2 class="section-title">Чому обирають саме нас</h2>
+      <p class="section-sub">Не обіцяємо золоті гори — гарантуємо результат</p>
+    </div>
+    <div class="why-grid">
+      <div class="why-card fade-in">
+        <div class="num">01</div>
+        <h4>Офіційна робота</h4>
+        <p>Всі документи легальні, з реєстрацією. Ніяких сірих схем та підводних каменів.</p>
+      </div>
+      <div class="why-card fade-in">
+        <div class="num">02</div>
+        <h4>Реальні терміни</h4>
+        <p>Не обіцяємо того, чого не можемо. Кажемо правду одразу — навіть якщо вона неприємна.</p>
+      </div>
+      <div class="why-card fade-in">
+        <div class="num">03</div>
+        <h4>Досвід з військовими</h4>
+        <p>Знаємо специфіку оформлення документів для ЗСУ. Розуміємо нюанси, яких не знають інші.</p>
+      </div>
+      <div class="why-card fade-in">
+        <div class="num">04</div>
+        <h4>Підтримка 24/7</h4>
+        <p>Від першої консультації до посадки в літак — завжди на зв'язку. Не залишимо в біді.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="steps">
+  <div class="section-inner">
+    <div class="section-header">
+      <div class="section-tag">Процес</div>
+      <h2 class="section-title">Як це працює</h2>
+      <p class="section-sub">3 простих кроки до готових документів</p>
+    </div>
+    <div class="steps-grid">
+      <div class="step fade-in">
+        <div class="step-num">1</div>
+        <h4>Безкоштовна консультація</h4>
+        <p>Дзвоните або пишете в Telegram. Аналізуємо ситуацію, підбираємо оптимальний варіант.</p>
+      </div>
+      <div class="step fade-in">
+        <div class="step-num">2</div>
+        <h4>Підготовка документів</h4>
+        <p>Збираємо та оформляємо повний пакет. Контролюємо кожен документ та термін.</p>
+      </div>
+      <div class="step fade-in">
+        <div class="step-num">3</div>
+        <h4>Ви отримуєте результат</h4>
+        <p>Готові документи в руках + детальна інструкція для виїзду. Без сюрпризів.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="section-inner">
+    <div class="section-header">
+      <div class="section-tag">FAQ</div>
+      <h2 class="section-title">Часті питання</h2>
+      <p class="section-sub">Відповіді на те, що цікавить найбільше</p>
+    </div>
+    <div class="faq-list">
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">Скільки часу займає оформлення візи?<div class="icon">+</div></div>
+        <div class="faq-a">Все залежить від типу візи та країни. Шенген — від 7 днів, робоча — від 14 днів. Є термінове оформлення за 3 дні. Точний термін скажемо після консультації.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">Чи можете ви допомогти військовослужбовцю?<div class="icon">+</div></div>
+        <div class="faq-a">Так, це наш профіль. Маємо досвід роботи з військовослужбовцями ЗСУ. Знаємо всі нюанси оформлення дозволів та віз для військових.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">Які документи потрібні для початку?<div class="icon">+</div></div>
+        <div class="faq-a">Зазвичай достатньо паспорта та фото. Повний список надамо після безкоштовної консультації — він різний для кожного випадку.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">Чи є гарантія отримання візи?<div class="icon">+</div></div>
+        <div class="faq-a">Ми гарантуємо правильне оформлення всіх документів. Рішення про видачу візи приймає консульство, але ми мінімізуємо ризик відмови до мінімуму.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">Як відбувається оплата?<div class="icon">+</div></div>
+        <div class="faq-a">Офіційна оплата — тільки після виготовлення документів. Ніяких передоплат незнайомим людям. Працюємо чесно.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">Що робити, якщо візу відхилили?<div class="icon">+</div></div>
+        <div class="faq-a">Проаналізуємо причину відмови та підготуємо повторну подачу з усуненням недоліків. У більшості випадків проблема вирішується.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="contact" id="contact">
+  <div class="section-inner">
+    <div class="section-header">
+      <div class="section-tag">Контакти</div>
+      <h2 class="section-title">Зв'яжіться з нами</h2>
+      <p class="section-sub">Безкоштовна консультація. Відповідаємо протягом 30 хвилин.</p>
+    </div>
+    <div class="contact-grid">
+      <div class="contact-info">
+        <h3>Напишіть або подзвоніть</h3>
+        <p>Оберіть зручний спосіб зв'язку. Ми на зв'язку щодня з 9:00 до 21:00.</p>
+        <a href="https://t.me/Lutuiruslan?text=Привіт!%20Мені%20потрібна%20допомога%20з%20візою." target="_blank" class="contact-item">
+          <div class="icon-box">✈️</div>
+          <div class="info"><strong>Telegram</strong><span>@Lutuiruslan</span></div>
+        </a>
+        <a href="tel:+380944910731" class="contact-item">
+          <div class="icon-box">📞</div>
+          <div class="info"><strong>Телефон</strong><span>+380 94 491 07 31</span></div>
+        </a>
+        <div class="contact-item" style="cursor:default;">
+          <div class="icon-box">⏰</div>
+          <div class="info"><strong>Графік роботи</strong><span>Щодня 9:00 — 21:00</span></div>
+        </div>
+      </div>
+      <div class="contact-form">
+        <h3>Залишити заявку</h3>
+        <p class="sub">Заповніть форму — ми передзвонимо</p>
+        <form onsubmit="submitForm(event)">
+          <div class="form-group">
+            <label>Ваше ім'я</label>
+            <input type="text" placeholder="Іван Петренко" required>
+          </div>
+          <div class="form-group">
+            <label>Телефон</label>
+            <input type="tel" placeholder="+380 XX XXX XX XX" required>
+          </div>
+          <div class="form-group">
+            <label>Що потрібно?</label>
+            <select>
+              <option>Віза</option>
+              <option>Загранпаспорт</option>
+              <option>Дозвіл на виїзд</option>
+              <option>Повний супровід</option>
+              <option>Консультація</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Коментар (необов'язково)</label>
+            <textarea placeholder="Опишіть ситуацію коротко..."></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary" style="width:100%; justify-content:center;">Відправити заявку</button>
+          <div class="timer"><div class="dot"></div>Відповідаємо протягом 30 хвилин</div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 Допомога Віза. Всі права захищені. Офіційна допомога з документами.</p>
+</footer>
+
+<div class="toast" id="toast">✅ Заявка відправлена! Ми зв'яжемося з вами найближчим часом.</div>
+
+<script>
+function toggleMenu() {
+  document.getElementById('mobileNav').classList.toggle('show');
+}
+function toggleFaq(el) {
+  const item = el.parentElement;
+  const all = document.querySelectorAll('.faq-item');
+  all.forEach(i => { if(i !== item) i.classList.remove('active'); });
+  item.classList.toggle('active');
+}
+function calcPrice() {
+  const base = parseInt(document.getElementById('visaType').value);
+  const urgent = parseInt(document.getElementById('urgency').value);
+  const extra = parseInt(document.getElementById('extra').value);
+  const total = base + urgent + extra;
+  document.querySelector('.calc-result .price').textContent = '$' + total;
+}
+function submitForm(e) {
+  e.preventDefault();
+  const toast = document.getElementById('toast');
+  toast.classList.add('show');
+  e.target.reset();
+  setTimeout(() => toast.classList.remove('show'), 4000);
+}
+
+// Scroll animations
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+// Header shadow on scroll
+window.addEventListener('scroll', () => {
+  const header = document.querySelector('header');
+  if(window.scrollY > 50) header.style.boxShadow = '0 4px 30px rgba(0,0,0,0.3)';
+  else header.style.boxShadow = 'none';
+});
+</script>
+</body>
+</html>
