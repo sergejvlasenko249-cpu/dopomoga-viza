@@ -294,8 +294,7 @@ footer p { color: var(--text-dim); font-size: 0.85rem; }
   </div>
 </header>
 <div class="mobile-nav" id="mobileNav">
-  <a href="#services" onclick="toggleMenu()">Послуги</a>
-  <a href="#calc" onclick="toggleMenu()">Ціни</a>
+  <a href="#services" onclick="toggleMenu()">Послуги<
   <a href="#why" onclick="toggleMenu()">Переваги</a>
   <a href="#steps" onclick="toggleMenu()">Як це працює</a>
   <a href="#faq" onclick="toggleMenu()">FAQ</a>
@@ -387,23 +386,20 @@ footer p { color: var(--text-dim); font-size: 0.85rem; }
       </div>
       <div class="calc-row">
         <label>Термін оформлення</label>
-        <select id="urgency" onchange="calcPrice()">
-          <option value="0">Стандарт (7-14 днів)</option>
-          <option value="50">Терміново (3-5 днів) +$50</option>
-          <option value="100">Експрес (1-2 дні) +$100</option>
+        <select id="urgency" onchange="calcPrice()
         </select>
       </div>
       <div class="calc-row">
         <label>Додаткові послуги</label>
         <select id="extra" onchange="calcPrice()">
           <option value="0">Без додаткових</option>
-          <option value="80">Пакет документів +$80</option>
-          <option value="150">Повний супровід +$150</option>
-          <option value="230">Документи + супровід +$230</option>
+   
+   
+         
         </select>
       </div>
       <div class="calc-result" id="calcResult">
-        <div class="price">$150</div>
+
         <div class="note">Орієнтовна вартість. Точну ціну скажемо після консультації.</div>
       </div>
     </div>
